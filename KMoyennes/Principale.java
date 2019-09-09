@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 class Point {
 	double x;
 	double y;
@@ -43,7 +46,7 @@ class Point {
 	static void setSigmaX(double sigmaX) { Point.sigmaX = sigmaX; };
 	static void setSigmaY(double sigmaY) { Point.sigmaY = sigmaY; };
 }
-class Surface extends JPanel implements ActionListener {
+class Surface extends JPanel implements ActionListener, KeyListener {
 
     private final int DELAY = 150;
     private Timer timer;
@@ -52,14 +55,15 @@ class Surface extends JPanel implements ActionListener {
 	Random rnd = new Random();;
 	
     public Surface() {
-        initTimer();
-		initPointClass();
+        //initTimer();
+		//initPointClass();
 		
 		initList();
 		printList();
     }
 
 	private void initList() {
+		this.liste.clear();
 		for (int i = 0; i < 20; i++) {
 			this.liste.add(new Point(this.rnd));
 		}
@@ -71,9 +75,9 @@ class Surface extends JPanel implements ActionListener {
 		}
 	}
 	
-	private void initPointClass() {
-		int w = getWidth();
-		int h = getHeight();
+	public void initPointClass() {
+		int w = this.getWidth();
+		int h = this.getHeight();
 
 		System.out.println("w: " + w + ", h:" + h);
 		
@@ -122,33 +126,56 @@ class Surface extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+		this.initPointClass();
+		this.initList();
+		System.out.println("Repaint, e: " + e);
         repaint();
     }
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		System.out.println(e);
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println(e);
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println(e);
+	}
 }
 
 class FramePrincipale extends JFrame {
-
     public FramePrincipale() {
         initUI();
     }
 
     private void initUI() {
-
         final Surface surface = new Surface();
         add(surface);
 
         addWindowListener(new WindowAdapter() {
-            @Override
+			@Override
             public void windowClosing(WindowEvent e) {
-                Timer timer = surface.getTimer();
-                timer.stop();
+                //Timer timer = surface.getTimer();
+                //timer.stop();
+				System.out.println(e);
             }
-        });
+		});
+        addWindowStateListener(new WindowAdapter() {
+			@Override
+			public void windowStateChanged(WindowEvent e) {
+				System.out.println(e);
+			}
+		});
 
         setTitle("Points");
         setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		surface.initPointClass();
     }
 }
 
@@ -164,6 +191,6 @@ class Principale {
 					FramePrincipale frame = new FramePrincipale();
 					frame.setVisible(true);
 				}
-			});
+			} );
 	}
 }
