@@ -24,16 +24,16 @@ class Point {
 	static double muX = 100;
 	static double muY = 120;
 	
-	static double sigmaX = 50;
-	static double sigmaY = 50;
+	static double sigmaX = 100;
+	static double sigmaY = 100;
 
 	Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 	Point(Random rnd) {
-		this.x = muX + sigmaX * rnd.nextGaussian();
-		this.y = muY + sigmaY * rnd.nextGaussian();
+		this.x = Point.muX + Point.sigmaX * rnd.nextGaussian();
+		this.y = Point.muY + Point.sigmaY * rnd.nextGaussian();
 	}
 
 	@Override
@@ -41,10 +41,20 @@ class Point {
 		return "(" + this.x + ";" + this.y + ")";
 	}
 
-	static void setMuX(double muX) { Point.muX = muX; };
-	static void setMuY(double muY) { Point.muX = muY; };
-	static void setSigmaX(double sigmaX) { Point.sigmaX = sigmaX; };
-	static void setSigmaY(double sigmaY) { Point.sigmaY = sigmaY; };
+	static void setMuX(double muX) {
+		Point.muX = muX;
+		System.out.println("Point.muX: " + Point.muX);
+	};
+	static void setMuY(double muY) {
+		Point.muY = muY;
+		System.out.println("Point.muY: " + Point.muY);
+	};
+	static void setSigmaX(double sigmaX) {
+		Point.sigmaX = sigmaX;
+	};
+	static void setSigmaY(double sigmaY) {
+		Point.sigmaY = sigmaY;
+	};
 }
 class Surface extends JPanel implements ActionListener, KeyListener {
 
@@ -64,7 +74,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 
 	private void initList() {
 		this.liste.clear();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 200; i++) {
 			this.liste.add(new Point(this.rnd));
 		}
 	}
@@ -83,8 +93,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		
 		Point.setMuX(w / 2.);
 		Point.setMuY(h / 2.);
-		Point.setSigmaX(10.);
-		Point.setSigmaY(10.);
+		Point.setSigmaX(200.);
+		Point.setSigmaY(200.);
 	}
     private void initTimer() {
         timer = new Timer(DELAY, this);
@@ -114,7 +124,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
         }
 		*/
 		for (Point p : this.liste) {
-			g2d.drawOval((int)p.x, (int)p.y, 20, 20);
+			g2d.fillOval((int)p.x, (int)p.y, 16, 16);
 		}
     }
 
@@ -126,23 +136,24 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-		this.initPointClass();
-		this.initList();
 		System.out.println("Repaint, e: " + e);
         repaint();
     }
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		System.out.println(e);
+		//System.out.println(e);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e);
+		this.initPointClass();
+		this.initList();
+        repaint();
+		//System.out.println(e);
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println(e);
+		//System.out.println(e);
 	}
 }
 
@@ -169,12 +180,15 @@ class FramePrincipale extends JFrame {
 				System.out.println(e);
 			}
 		});
-
+ 
         setTitle("Points");
         setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		// A méditer
+		surface.addKeyListener(surface);
+		surface.setFocusable(true);
 		surface.initPointClass();
     }
 }
