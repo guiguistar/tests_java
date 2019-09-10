@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -110,19 +109,6 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 
         g2d.setPaint(Color.blue);
 
-        int w = getWidth();
-        int h = getHeight();
-
-        Random r = new Random();
-
-		/*
-        for (int i = 0; i < 2000; i++) {
-            int x = Math.abs(r.nextInt()) % w;
-            int y = Math.abs(r.nextInt()) % h;
-            //g2d.drawLine(x, y, x, y);
-            g2d.drawOval(x, y, 20, 20);
-        }
-		*/
 		for (Point p : this.liste) {
 			g2d.fillOval((int)p.x, (int)p.y, 16, 16);
 		}
@@ -182,7 +168,7 @@ class FramePrincipale extends JFrame {
 		});
  
         setTitle("Points");
-        setSize(350, 250);
+        setSize(640, 480);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
