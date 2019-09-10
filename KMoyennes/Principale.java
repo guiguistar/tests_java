@@ -68,7 +68,7 @@ class KDistribution {
 
 class Surface extends JPanel implements ActionListener, KeyListener {
 
-    private final int DELAY = 150;
+    private final int DELAY = 20;
     private Timer timer;
 
     private Normale2D normale;
@@ -77,7 +77,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();;
 	
     public Surface() {
-        //initTimer();
+        initTimer();
 		
 		//initList();
 		//printList();
@@ -111,11 +111,12 @@ class Surface extends JPanel implements ActionListener, KeyListener {
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setPaint(Color.blue);
+        g2d.setPaint(Color.black);
 
         int rayon = 10;
         
 		for (Point p : this.liste) {
+			//g2d.drawOval((int)p.x, (int)p.y, rayon, rayon);
 			g2d.fillOval((int)p.x, (int)p.y, rayon, rayon);
 		}
     }
@@ -128,8 +129,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-		System.out.println("Repaint, e: " + e);
-        repaint();
+		//System.out.println("Repaint, e: " + e);
+    	this.initList(); 	
+    	repaint();
     }
 
 	@Override
@@ -160,8 +162,8 @@ class FramePrincipale extends JFrame {
         addWindowListener(new WindowAdapter() {
 			@Override
             public void windowClosing(WindowEvent e) {
-                //Timer timer = surface.getTimer();
-                //timer.stop();
+                Timer timer = surface.getTimer();
+                timer.stop();
 				System.out.println(e);
             }
 		});
