@@ -16,65 +16,81 @@ import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+class Normale2D {
+	Random rnd = new Random();
+	double muX, muY, sigmaX, sigmaY;
+	
+	Normale2D(double muX, double muY, double sigmaX, double sigmaY) {
+		this.muX = muX;
+		this.muY = muY;
+		this.sigmaX = sigmaX;
+		this.sigmaY = sigmaY;
+	}
+	
+	public void setMuX(double muX) {
+		this.muX = muX;
+	};
+	public void setMuY(double muY) {
+		this.muY = muY;
+	};
+	public void setSigmaX(double sigmaX) {
+		this.sigmaX = sigmaX;
+	};
+	public void setSigmaY(double sigmaY) {
+		this.sigmaY = sigmaY;
+	};
+
+	public Point realisation() {
+		double x = this.muX + this.sigmaX * this.rnd.nextGaussian();
+		double y = this.muY + this.sigmaY * this.rnd.nextGaussian();
+		
+		return new Point(x, y);
+	}
+}
+
 class Point {
 	double x;
 	double y;
-
-	static double muX = 100;
-	static double muY = 120;
-	
-	static double sigmaX = 100;
-	static double sigmaY = 100;
 
 	Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-	Point(Random rnd) {
-		this.x = Point.muX + Point.sigmaX * rnd.nextGaussian();
-		this.y = Point.muY + Point.sigmaY * rnd.nextGaussian();
-	}
-
 	@Override
 	public String toString() {
 		return "(" + this.x + ";" + this.y + ")";
 	}
-
-	static void setMuX(double muX) {
-		Point.muX = muX;
-		System.out.println("Point.muX: " + Point.muX);
-	};
-	static void setMuY(double muY) {
-		Point.muY = muY;
-		System.out.println("Point.muY: " + Point.muY);
-	};
-	static void setSigmaX(double sigmaX) {
-		Point.sigmaX = sigmaX;
-	};
-	static void setSigmaY(double sigmaY) {
-		Point.sigmaY = sigmaY;
-	};
 }
+
+class KDistribution {
+	
+}
+
 class Surface extends JPanel implements ActionListener, KeyListener {
 
     private final int DELAY = 150;
     private Timer timer;
 
+    private Normale2D normale;
+    
 	ArrayList<Point> liste = new ArrayList<>();
 	Random rnd = new Random();;
 	
     public Surface() {
         //initTimer();
-		//initPointClass();
 		
-		initList();
-		printList();
+		//initList();
+		//printList();
     }
 
 	private void initList() {
+		int w = this.getWidth();
+		int h = this.getHeight();
+		
+		this.normale = new Normale2D(w/2, h/2, h/8, h/8);
 		this.liste.clear();
 		for (int i = 0; i < 200; i++) {
-			this.liste.add(new Point(this.rnd));
+			this.liste.add(this.normale.realisation());
 		}
 	}
 
@@ -82,18 +98,6 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		for (Point p : this.liste) {
 			System.out.println(p);
 		}
-	}
-	
-	public void initPointClass() {
-		int w = this.getWidth();
-		int h = this.getHeight();
-
-		System.out.println("w: " + w + ", h:" + h);
-		
-		Point.setMuX(w / 2.);
-		Point.setMuY(h / 2.);
-		Point.setSigmaX(200.);
-		Point.setSigmaY(200.);
 	}
     private void initTimer() {
         timer = new Timer(DELAY, this);
@@ -109,8 +113,10 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 
         g2d.setPaint(Color.blue);
 
+        int rayon = 10;
+        
 		for (Point p : this.liste) {
-			g2d.fillOval((int)p.x, (int)p.y, 16, 16);
+			g2d.fillOval((int)p.x, (int)p.y, rayon, rayon);
 		}
     }
 
@@ -132,7 +138,6 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		this.initPointClass();
 		this.initList();
         repaint();
 		//System.out.println(e);
@@ -175,7 +180,6 @@ class FramePrincipale extends JFrame {
 		// A méditer
 		surface.addKeyListener(surface);
 		surface.setFocusable(true);
-		surface.initPointClass();
     }
 }
 
