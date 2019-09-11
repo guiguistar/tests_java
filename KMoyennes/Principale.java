@@ -1,6 +1,3 @@
-import java.util.Random;
-import java.util.ArrayList;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -16,38 +13,6 @@ import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-class Normale2D {
-	Random rnd = new Random();
-	double muX, muY, sigmaX, sigmaY;
-	
-	Normale2D(double muX, double muY, double sigmaX, double sigmaY) {
-		this.muX = muX;
-		this.muY = muY;
-		this.sigmaX = sigmaX;
-		this.sigmaY = sigmaY;
-	}
-	
-	public void setMuX(double muX) {
-		this.muX = muX;
-	};
-	public void setMuY(double muY) {
-		this.muY = muY;
-	};
-	public void setSigmaX(double sigmaX) {
-		this.sigmaX = sigmaX;
-	};
-	public void setSigmaY(double sigmaY) {
-		this.sigmaY = sigmaY;
-	};
-
-	public Point realisation() {
-		double x = this.muX + this.sigmaX * this.rnd.nextGaussian();
-		double y = this.muY + this.sigmaY * this.rnd.nextGaussian();
-		
-		return new Point(x, y);
-	}
-}
-
 class Point {
 	double x;
 	double y;
@@ -62,14 +27,10 @@ class Point {
 	}
 }
 
-class KDistribution {
-	
-}
-
 class Surface extends JPanel implements ActionListener, KeyListener {
 
     private final int DELAY = 20;
-    private Timer timer;
+    //private Timer timer;
 
     private Normale2D normale;
     
@@ -103,11 +64,12 @@ class Surface extends JPanel implements ActionListener, KeyListener {
         //timer = new Timer(DELAY, this);
         //timer.start();
     }
-    
+    /*
     public Timer getTimer() {
-        return timer;
+        //return timer;
     }
-
+     */
+    
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
