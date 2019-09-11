@@ -77,7 +77,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();;
 	
     public Surface() {
-        initTimer();
+        //initTimer();
 		
 		//initList();
 		//printList();
@@ -100,8 +100,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		}
 	}
     private void initTimer() {
-        timer = new Timer(DELAY, this);
-        timer.start();
+        //timer = new Timer(DELAY, this);
+        //timer.start();
     }
     
     public Timer getTimer() {
@@ -130,8 +130,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 		//System.out.println("Repaint, e: " + e);
-    	this.initList(); 	
-    	repaint();
+    	//this.initList(); 	
+    	//repaint();
     }
 
 	@Override
@@ -162,8 +162,8 @@ class FramePrincipale extends JFrame {
         addWindowListener(new WindowAdapter() {
 			@Override
             public void windowClosing(WindowEvent e) {
-                Timer timer = surface.getTimer();
-                timer.stop();
+                //Timer timer = surface.getTimer();
+                //timer.stop();
 				System.out.println(e);
             }
 		});
