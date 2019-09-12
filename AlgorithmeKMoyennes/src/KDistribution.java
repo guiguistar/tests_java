@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class KDistribution {
 	double poidsTotal;
@@ -42,6 +43,16 @@ public class KDistribution {
 		//System.out.println("indice loi: "+i+", poidsCourant: " + poidsCourant);
 		
 		return this.lois.get(i).realisation();
+	}
+	public ArrayList<Point> KRealisation() {
+		ArrayList<Point> barycentres = new ArrayList<>();
+		for (int i = 0; i < this.lois.size(); i++) {
+			Point p = this.lois.get(i).realisation();
+			p.setCouleur(new Color(rnd.nextInt(65000)));
+			barycentres.add(p);
+		}
+		
+		return barycentres;
 	}
 	void setMusX(double muX) {
 		for (Loi loi : this.lois) {

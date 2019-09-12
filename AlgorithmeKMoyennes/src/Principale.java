@@ -93,11 +93,19 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		for (Point p : this.liste) {
 			p.draw(g2d, Color.black);
 		}
-
+		
+		/*
 		if (this.liste.size() > 0) {
 			ArrayList<Point> l = this.KMoy.pointsAleatoires();
 			for (Point p : l) {
-				p.fill(g2d, Color.red);
+				p.fill(g2d);
+			}
+		}
+		*/
+		if (this.liste.size() > 0) {
+			ArrayList<Point> barycentres = this.KDist.KRealisation();
+			for (Point p : barycentres) {
+				p.fill(g2d);
 			}
 		}
     }

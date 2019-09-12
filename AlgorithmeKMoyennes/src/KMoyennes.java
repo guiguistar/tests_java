@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.Color;
 
 public class KMoyennes {
 	Random rnd = new Random();
@@ -23,7 +24,9 @@ public class KMoyennes {
 		ArrayList<Point> pointsAleatoires = new ArrayList<>();
 		
 		for (int i = 0; i < n; i++) {
-			pointsAleatoires.add(this.pointAleatoire());
+			Point p = this.pointAleatoire();
+			p.setCouleur(new Color(rnd.nextInt(65000)));
+			pointsAleatoires.add(p);
 		}
 		
 		return pointsAleatoires;
