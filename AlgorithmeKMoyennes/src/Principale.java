@@ -26,7 +26,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	
     ArrayList<Point> liste = new ArrayList<>();
 	
-    private KMoyennes KMoy = new KMoyennes(3, liste);
+    private KMoyennes KMoy = new KMoyennes(3, liste, KDist);
     
     public Surface() {
     	KDist.ajouterLoi(150, 200, 5, 5, 0.5);
@@ -102,9 +102,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		*/
-		if (this.liste.size() > 0) {
-			ArrayList<Point> barycentres = this.KDist.KRealisation();
-			for (Point p : barycentres) {
+		if ( !(this.KMoy.barycentres == null) ) {
+			for (Point p : this.KMoy.barycentres) {
 				p.fill(g2d);
 			}
 		}
@@ -131,6 +130,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			this.initListe();
+			if (this.liste.size() > 0) {
+				this.KMoy.initialiserBarycentres();
+			}	
 			repaint();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_P) {
