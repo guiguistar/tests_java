@@ -105,9 +105,10 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		if ( !(this.KMoy.barycentres == null) ) {
 			for (Point p : this.KMoy.barycentres) {
 				p.fill(g2d);
+				p.draw(g2d,Color.black);
 			}
 		}
-    }
+    } 
 
     @Override
     public void paintComponent(Graphics g) {
@@ -137,6 +138,10 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_P) {
 			this.printList();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_V) {
+			this.KMoy.faireGroupes();
+			repaint();
 		}
 		//System.out.println(e);
 	}
@@ -186,11 +191,11 @@ class Principale {
 		System.out.println("Algorithme des K-moyennes.");
 		
 		EventQueue.invokeLater( new Runnable() {
-				@Override
-				public void run() {
-					FramePrincipale frame = new FramePrincipale();
-					frame.setVisible(true);
-				}
-			} );
+			@Override
+			public void run() {
+				FramePrincipale frame = new FramePrincipale();
+				frame.setVisible(true);
+			}
+		} );
 	}
 }

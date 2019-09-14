@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.awt.Color;
 
 class Normale2D {
 	Random rnd = new Random();
@@ -36,5 +37,11 @@ class Normale2D {
 		double y = this.muY + this.sigmaY * this.rnd.nextGaussian();
 		
 		return new Point(x, y);
+	}
+	public Point realisation(Color couleur) {
+		Point p = this.realisation();
+		p.setCouleur(couleur);
+		
+		return p;
 	}
 }

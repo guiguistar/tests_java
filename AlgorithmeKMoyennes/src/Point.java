@@ -10,7 +10,8 @@ class Point {
 
     int rayon = 10;
     Color couleur = new Color(0x0);
-    
+    boolean done = false;
+   
 	Point(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -19,6 +20,10 @@ class Point {
 		this.x = x;
 		this.y = y;
 		this.couleur = couleur;
+	}
+	Point(Point p) {
+		this.x = p.x;
+		this.y = p.y;
 	}
 	double distance(Point autre) {
 		double dx = this.x - autre.x;
@@ -54,6 +59,10 @@ class Point {
         g2d.setPaint(color);
 
 		g2d.drawOval((int)this.x, (int)this.y, this.rayon, this.rayon);
+		
+		if (this.done) {
+			this.fill(g2d);
+		}
 	}
 	void fill(Graphics g, Color color) {
 		Graphics2D g2d = (Graphics2D) g;
@@ -70,4 +79,8 @@ class Point {
 	void setCouleur(Color couleur) {
 		this.couleur = couleur;
 	}
+	void setDone(boolean done) {
+		this.done = done;
+	}
 }
+

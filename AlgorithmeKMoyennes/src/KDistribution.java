@@ -44,6 +44,7 @@ public class KDistribution {
 		
 		return this.lois.get(i).realisation();
 	}
+	/*
 	public ArrayList<Point> KRealisation() {
 		ArrayList<Point> barycentres = new ArrayList<>();
 		for (int i = 0; i < this.lois.size(); i++) {
@@ -54,6 +55,7 @@ public class KDistribution {
 		
 		return barycentres;
 	}
+	*/
 	void setMusX(double muX) {
 		for (Loi loi : this.lois) {
 			loi.normale.setMuX(muX);	
