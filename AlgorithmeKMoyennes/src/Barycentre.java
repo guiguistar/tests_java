@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 class Barycentre extends Point {
 	int numero;
-	
+ 	
 	Barycentre(double x, double y, Color couleur, int numero) {
 		super(x, y, couleur);
 		this.numero = numero;

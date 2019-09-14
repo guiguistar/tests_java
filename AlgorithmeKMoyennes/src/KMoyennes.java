@@ -26,19 +26,39 @@ public class KMoyennes {
 			groupes.add(new ArrayList<Point>());
 		}
 	}
+	void clearGroupes() {
+		for (ArrayList<Point> groupe : this.groupes) {
+			groupe.clear();
+		}
+	}
 	
 	void initialiserBarycentres() {
 		//this.barycentres = this.KDist.KRealisation();
 		
 		this.barycentres = new ArrayList<>();
-		for (int i = 0; i < this.KDist.lois.size(); i++) {
+		//for (int i = 0; i < this.KDist.lois.size(); i++) {
+		for (int i = 0; i < this.K; i++) {
 			//Point p = this.KDist.lois.get(i).realisation();
 			Point p = this.KDist.realisation();
 			p.setCouleur(new Color(rnd.nextInt(65000)));
 			
 			Barycentre barycentre = new Barycentre(p, i);
+			barycentre.setRayon(30);
 			
 			this.barycentres.add(barycentre);
+		}
+	}
+	
+	void updateBarycentres() {
+		for (int i = 0; i < this.K; i++) {
+			ArrayList<Point> groupe = this.groupes.get(i);
+			
+			Barycentre barycentre = Barycentre.barycentre(groupe);
+			barycentre.setCouleur(groupe.get(0).couleur);
+			barycentre.setNumero(i);
+			barycentre.setRayon(30);
+			
+			this.barycentres.set(i, barycentre);
 		}
 	}
 	
@@ -47,10 +67,13 @@ public class KMoyennes {
 	}
 	
 	void faireGroupes() {
+		this.clearGroupes();
 		for(Point p : this.liste) {
 			Barycentre plusProche = (Barycentre) p.plusProche(this.barycentres);
 			p.setCouleur(plusProche.couleur);
 			p.setDone(true);
+			
+			this.groupes.get(plusProche.numero).add(p);
 			System.out.println("Plus proche de " + p + ": " + plusProche + ", num: " + plusProche.numero);
 		}
 	}

@@ -16,7 +16,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 class Surface extends JPanel implements ActionListener, KeyListener {
-	private final int NOMBRE_POINTS = 200;
+	private final int NOMBRE_POINTS = 1000;
     
 	//private final int DELAY = 20;
     //private Timer timer;
@@ -29,9 +29,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
     private KMoyennes KMoy = new KMoyennes(3, liste, KDist);
     
     public Surface() {
-    	KDist.ajouterLoi(150, 200, 5, 5, 0.5);
-    	KDist.ajouterLoi(250, 200, 5, 5, 0.3);
-    	KDist.ajouterLoi(250, 300, 5, 5, 0.2);    	
+    	KDist.ajouterLoi(150, 200, 1, 1, 0.5);
+    	KDist.ajouterLoi(250, 200, 2, 5, 0.3);
+    	KDist.ajouterLoi(250, 300, 5, 2, 0.2);    	
 
         //initTimer();
 		
@@ -48,7 +48,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		int w = this.getWidth();
 		int h = this.getHeight();
 		
-		this.normale = new Normale2D(w/2, h/2, h/8, h/8);
+		this.normale = new Normale2D(w/2, h/2, h/32, h/32);
 		this.liste.clear();
 		for (int i = 0; i < NOMBRE_POINTS; i++) {
 			this.liste.add(this.normale.realisation());
@@ -60,9 +60,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		
 		//this.KDist.setNormales(w/2, h/2, h/8, h/8);
 		
-		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/8, h/12);
-		this.KDist.lois.get(1).normale.setParams(w/2, h/3, h/16, h/10);
-		this.KDist.lois.get(2).normale.setParams(3*w/4, h/2, h/16, h/16);
+		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/20, h/12);
+		this.KDist.lois.get(1).normale.setParams(w/2, h/3, h/4, h/30);
+		this.KDist.lois.get(2).normale.setParams(3*w/4, h/2, h/32, h/8);
 		
 		this.liste.clear();
 		for (int i = 0; i < NOMBRE_POINTS; i++) {
@@ -103,10 +103,6 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		}
 		*/
 		
-		Barycentre test = Barycentre.barycentre(liste);
-		test.setRayon(40);
-		test.draw(g2d);
-		
 		if ( !(this.KMoy.barycentres == null) ) {
 			for (Point p : this.KMoy.barycentres) {
 				p.fill(g2d);
@@ -146,6 +142,10 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_V) {
 			this.KMoy.faireGroupes();
+			repaint();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_B ) {
+			this.KMoy.updateBarycentres();
 			repaint();
 		}
 		//System.out.println(e);
