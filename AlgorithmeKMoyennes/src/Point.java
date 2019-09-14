@@ -24,6 +24,15 @@ class Point {
 	Point(Point p) {
 		this.x = p.x;
 		this.y = p.y;
+		this.couleur = p.couleur;
+	}
+	void ajouter(Point p) {
+		this.x += p.x;
+		this.y += p.y;
+	}
+	void multiplier(double reel) {
+		this.x *= reel;
+		this.y *= reel;
 	}
 	double distance(Point autre) {
 		double dx = this.x - autre.x;
@@ -81,6 +90,9 @@ class Point {
 	}
 	void setDone(boolean done) {
 		this.done = done;
+	}
+	void setRayon(int rayon) {
+		this.rayon = rayon;
 	}
 }
 

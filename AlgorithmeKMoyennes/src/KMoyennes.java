@@ -38,7 +38,7 @@ public class KMoyennes {
 			
 			Barycentre barycentre = new Barycentre(p, i);
 			
-			this.barycentres.add(p);
+			this.barycentres.add(barycentre);
 		}
 	}
 	
@@ -48,10 +48,10 @@ public class KMoyennes {
 	
 	void faireGroupes() {
 		for(Point p : this.liste) {
-			Point plusProche = p.plusProche(this.barycentres);
+			Barycentre plusProche = (Barycentre) p.plusProche(this.barycentres);
 			p.setCouleur(plusProche.couleur);
 			p.setDone(true);
-			System.out.println("Plus proche de " + p + ": " + plusProche);
+			System.out.println("Plus proche de " + p + ": " + plusProche + ", num: " + plusProche.numero);
 		}
 	}
 	

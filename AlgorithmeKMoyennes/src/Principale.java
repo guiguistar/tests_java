@@ -102,6 +102,11 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		*/
+		
+		Barycentre test = Barycentre.barycentre(liste);
+		test.setRayon(40);
+		test.draw(g2d);
+		
 		if ( !(this.KMoy.barycentres == null) ) {
 			for (Point p : this.KMoy.barycentres) {
 				p.fill(g2d);
