@@ -40,7 +40,7 @@ public class KMoyennes {
 		for (int i = 0; i < this.K; i++) {
 			//Point p = this.KDist.lois.get(i).realisation();
 			Point p = this.KDist.realisation();
-			p.setCouleur(new Color(rnd.nextInt(65000)));
+			p.setCouleur(new Color(rnd.nextInt(65536)));
 			
 			Barycentre barycentre = new Barycentre(p, i);
 			barycentre.setRayon(30);

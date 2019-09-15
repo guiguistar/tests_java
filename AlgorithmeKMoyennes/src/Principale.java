@@ -60,9 +60,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		
 		//this.KDist.setNormales(w/2, h/2, h/8, h/8);
 		
-		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/20, h/12);
-		this.KDist.lois.get(1).normale.setParams(w/2, h/3, h/4, h/30);
-		this.KDist.lois.get(2).normale.setParams(3*w/4, h/2, h/32, h/8);
+		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/2, h/12);
+		this.KDist.lois.get(1).normale.setParams(w/2, h/4, h/4, h/20);
+		this.KDist.lois.get(2).normale.setParams(3*w/4, 2*h/3, h/22, h/8);
 		
 		this.liste.clear();
 		for (int i = 0; i < NOMBRE_POINTS; i++) {
