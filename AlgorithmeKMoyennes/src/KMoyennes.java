@@ -34,12 +34,16 @@ public class KMoyennes {
 	
 	void initialiserBarycentres() {
 		//this.barycentres = this.KDist.KRealisation();
+		//KDistribution KD = new KDistribution();
+		//KD.ajouterLoi(400,200,5,5,1);
 		
 		this.barycentres = new ArrayList<>();
 		//for (int i = 0; i < this.KDist.lois.size(); i++) {
 		for (int i = 0; i < this.K; i++) {
 			//Point p = this.KDist.lois.get(i).realisation();
 			Point p = this.KDist.realisation();
+			
+			//Point p = KD.realisation();
 			p.setCouleur(new Color(rnd.nextInt(65536)));
 			
 			Barycentre barycentre = new Barycentre(p, i);
@@ -74,7 +78,7 @@ public class KMoyennes {
 			p.setDone(true);
 			
 			this.groupes.get(plusProche.numero).add(p);
-			System.out.println("Plus proche de " + p + ": " + plusProche + ", num: " + plusProche.numero);
+			//System.out.println("Plus proche de " + p + ": " + plusProche + ", num: " + plusProche.numero);
 		}
 	}
 	

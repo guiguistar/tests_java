@@ -8,7 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//import javax.swing.Timer;
+import javax.swing.Timer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,8 +18,9 @@ import java.util.ArrayList;
 class Surface extends JPanel implements ActionListener, KeyListener {
 	private final int NOMBRE_POINTS = 1000;
     
-	//private final int DELAY = 20;
-    //private Timer timer;
+	private final int DELAY = 100;
+    private Timer timer;
+    private boolean animated = false;
 
     private Normale2D normale;
     private KDistribution KDist = new KDistribution();
@@ -33,7 +34,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
     	KDist.ajouterLoi(250, 200, 2, 5, 0.3);
     	KDist.ajouterLoi(250, 300, 5, 2, 0.2);    	
 
-        //initTimer();
+        initTimer();
 		
 		//initList();
 		//printList();
@@ -42,6 +43,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
     	int h = this.getHeight();
     	
     	System.out.println("A la construction de la surface, w: "+w+", h: "+h);
+    	
+    	this.KMoy.initialiserBarycentres();
     }
 
 	private void initList() {
@@ -60,8 +63,8 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		
 		//this.KDist.setNormales(w/2, h/2, h/8, h/8);
 		
-		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/2, h/12);
-		this.KDist.lois.get(1).normale.setParams(w/2, h/4, h/4, h/20);
+		this.KDist.lois.get(0).normale.setParams(w/4, 5*h/8, h/20, h/12);
+		this.KDist.lois.get(1).normale.setParams(w/2, h/4, h/12, h/20);
 		this.KDist.lois.get(2).normale.setParams(3*w/4, 2*h/3, h/22, h/8);
 		
 		this.liste.clear();
@@ -75,17 +78,15 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 			System.out.println(p);
 		}
 	}
-	/*
+	
     private void initTimer() {
         timer = new Timer(DELAY, this);
         timer.start();
     }
-    */
-    /*
+
     public Timer getTimer() {
-        //return timer;
+        return timer;
     }
-     */
     
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -103,7 +104,7 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		}
 		*/
 		
-		if ( !(this.KMoy.barycentres == null) ) {
+		if ( !this.liste.isEmpty() && !(this.KMoy.barycentres == null) ) {
 			for (Point p : this.KMoy.barycentres) {
 				p.fill(g2d);
 				p.draw(g2d,Color.black);
@@ -122,6 +123,11 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		//System.out.println("Repaint, e: " + e);
     	//this.initList(); 	
     	//repaint();
+    	if ( this.animated && this.liste.size() > 0) {
+    		this.KMoy.faireGroupes();
+    		this.KMoy.updateBarycentres();
+    		repaint();
+    	}
     }
 
 	@Override
@@ -148,6 +154,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 			this.KMoy.updateBarycentres();
 			repaint();
 		}
+		if (e.getKeyCode() == KeyEvent.VK_A ) {
+			this.animated = !this.animated;
+		}
 		//System.out.println(e);
 	}
 	@Override
@@ -168,8 +177,8 @@ class FramePrincipale extends JFrame {
         addWindowListener(new WindowAdapter() {
 			@Override
             public void windowClosing(WindowEvent e) {
-                //Timer timer = surface.getTimer();
-                //timer.stop();
+                Timer timer = surface.getTimer();
+                timer.stop();
 				System.out.println(e);
             }
 		});
