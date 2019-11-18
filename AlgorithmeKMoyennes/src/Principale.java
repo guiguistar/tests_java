@@ -2,6 +2,11 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,6 +14,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -38,7 +45,9 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 		
 		//initList();
 		//printList();
-    	
+    	//this.setSize(640, 480);
+    	this.setPreferredSize(new Dimension(640, 480));
+        
     	int w = this.getWidth();
     	int h = this.getHeight();
     	
@@ -163,6 +172,38 @@ class Surface extends JPanel implements ActionListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		//System.out.println(e);
 	}
+
+	public boolean isAnimated() {
+		return animated;
+	}
+
+	public void setAnimated(boolean animated) {
+		this.animated = animated;
+	}
+}
+
+class Controle extends JPanel implements ActionListener {
+	Boolean animationState = false;
+	GridLayout layout = new GridLayout(1, 2);
+	JButton animationButton = new JButton("Enable animation");
+	Surface surface;
+	Controle(Surface surface) {
+		this.surface = surface;
+		setLayout(layout);
+		
+		add(animationButton);
+		animationButton.addActionListener(this);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		if(source == animationButton) {
+			animationState = !animationState;
+			animationButton.setText(animationState ? "Disable animation"  : "Enable animation");
+			this.surface.setAnimated(!this.surface.isAnimated());
+		}
+	}
 }
 
 class FramePrincipale extends JFrame {
@@ -171,9 +212,24 @@ class FramePrincipale extends JFrame {
     }
 
     private void initUI() {
-        final Surface surface = new Surface();
-        add(surface);
+    	JPanel contentPane = new JPanel();
+    	this.setContentPane(contentPane);
+    	
+    	FlowLayout layout = new FlowLayout();
+    	layout.setAlignment(FlowLayout.LEFT);
+    	
+    	contentPane.setLayout(layout);
+    	contentPane.setBackground(Color.ORANGE);
+    	
+    	final Surface surface = new Surface();
+    	//add(surface);
+        contentPane.add(surface);
 
+        final Controle controle = new Controle(surface);
+        add(controle);
+        
+        System.out.println("Dans initUI, w: " + surface.getWidth() + ", h: " + surface.getHeight());
+        
         addWindowListener(new WindowAdapter() {
 			@Override
             public void windowClosing(WindowEvent e) {
@@ -190,13 +246,16 @@ class FramePrincipale extends JFrame {
 		});
  
         setTitle("Points");
-        setSize(640, 480);
+        //setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// A méditer
+        System.out.println("Dans initUI, w: " + this.getWidth() + ", h: " + this.getHeight());
+		//A méditer
 		surface.addKeyListener(surface);
 		surface.setFocusable(true);
+		
+		pack();
     }
 }
 
